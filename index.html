@@ -1,0 +1,210 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Valuation SERGAS Transição</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap">
+<style>
+/* Layout: cabeçalho, faixa de indicadores, grade de gráficos em duas colunas, simulador, ciclos regulatórios, notas de auditoria */
+:root{
+  --bg:#F3F6F8; --surface:#FFFFFF; --ink:#13252E; --muted:#55666F; --grid:#DDE5EA; --line:#C9D5DC;
+  --c1:#1B3A4B; --c2:#2E6E8E; --c3:#7FAEC6; --c4:#C28A3B; --c5:#8C5A7A; --c6:#A8C8D8;
+  --warn:#9A5B00; --warnbg:#FBF1E0;
+  --font-display:'Montserrat','Segoe UI',Arial,sans-serif; --font-body:'Montserrat','Segoe UI',Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1A20; --surface:#15262E; --ink:#E5EEF2; --muted:#9DB0B9; --grid:#243842; --line:#2F4651;
+  --c1:#9CC3D6; --c2:#5E9CBB; --c3:#3F7794; --c4:#D9A354; --c5:#B98AA8; --c6:#2B5063;
+  --warn:#E6B565; --warnbg:#2A2216; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1A20; --surface:#15262E; --ink:#E5EEF2; --muted:#9DB0B9; --grid:#243842; --line:#2F4651;
+  --c1:#9CC3D6; --c2:#5E9CBB; --c3:#3F7794; --c4:#D9A354; --c5:#B98AA8; --c6:#2B5063;
+  --warn:#E6B565; --warnbg:#2A2216; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-weight:300;font-size:14px;line-height:1.5;padding-inline:clamp(16px,3vw,40px);padding-block:28px 48px}
+.wrap{max-width:1280px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+h1,h2,h3{font-family:var(--font-display);font-weight:700;margin:0;text-wrap:balance}
+h1{font-size:clamp(22px,3vw,30px);line-height:1.2}
+h2{font-size:15px}
+.sub{color:var(--muted);margin:6px 0 0;max-width:80ch}
+.meta{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:12px;margin-top:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;min-width:0}
+.kpi.main{background:var(--c1);color:var(--bg);border-color:var(--c1)}
+:root[data-theme="dark"] .kpi.main, :root:not([data-theme="light"]) .kpi.main{}
+.kpi .l{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi.main .l{color:inherit;opacity:.8}
+.kpi .v{font-family:var(--font-display);font-weight:700;font-size:26px;line-height:1.15;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .n{font-size:12px;color:var(--muted);margin-top:2px}
+.kpi.main .n{color:inherit;opacity:.8}
+.comp{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px}
+.bar{display:flex;height:34px;gap:2px;margin-top:10px}
+.bar div{display:flex;align-items:center;padding-inline:10px;font-weight:600;font-size:12px;min-width:0;white-space:nowrap;overflow:hidden}
+.bar .a{background:var(--c2);color:#fff;border-radius:3px 0 0 3px}
+.bar .b{background:var(--c6);color:var(--ink);border-radius:0 3px 3px 0}
+:root[data-theme="dark"] .bar .a{color:#0E1A20}
+.ctrl{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:16px;align-items:end;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.cg{min-width:0}.cg label{display:flex;justify-content:space-between;gap:8px;font-weight:600;font-size:12px;margin-bottom:4px}
+.cg input[type=range]{width:100%;accent-color:var(--c2)}
+@media(max-width:820px){.ctrl{grid-template-columns:minmax(0,1fr)}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px 16px 12px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.card p.cap{margin:0;color:var(--muted);font-size:12px;max-width:70ch}
+.cv{position:relative;height:290px}
+.full{grid-column:1/-1}
+.sim{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:20px}
+.ctl{display:flex;flex-direction:column;gap:14px}
+.ctl label{display:flex;justify-content:space-between;font-weight:600;font-size:12px}
+.ctl input[type=range]{width:100%;accent-color:var(--c2)}
+.out{font-family:var(--font-display);font-weight:700;font-size:30px;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:12.5px}
+th,td{padding:7px 10px;text-align:right;border-bottom:1px solid var(--grid);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);font-size:11px;letter-spacing:.05em;text-transform:uppercase}
+td.base{background:var(--c6);color:var(--ink);font-weight:600}
+.notes{background:var(--warnbg);border:1px solid var(--line);border-radius:6px;padding:16px 18px}
+.notes h2{color:var(--warn);margin-bottom:8px}
+.notes ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+details{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 16px}
+summary{cursor:pointer;font-weight:600}
+summary:focus-visible,input:focus-visible,button:focus-visible{outline:2px solid var(--c2);outline-offset:2px}
+.tg{background:none;border:1px solid var(--line);color:var(--ink);border-radius:4px;padding:5px 10px;font:inherit;font-size:12px;cursor:pointer}
+.top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap}
+@media(max-width:820px){.grid,.sim{grid-template-columns:minmax(0,1fr)}.cv{height:260px}}
+</style>
+<div class="wrap">
+ <header>
+  <div class="top"><div>
+   <h1>Valuation SERGAS, Price Cap Cenário Transição</h1>
+   <p class="sub">Painel construído sobre o modelo econômico regulatório do Cenário Transição (arquivo Modelo Econômico Regulatório SERGAS PC). Valores em R$ milhões correntes, salvo indicação.</p>
+  </div></div>
+  <div class="meta"><span>Janela de valuation: <b id="mJan"></b></span><span>Desconto a valor presente de 2026</span><span>IR e CSLL: 15,25%</span><span>Fonte: abas Financeiro, Painel de Controle, Regulatório, Mercado, Operacional e BRRLt</span></div>
+ </header>
+
+ <section class="ctrl" aria-label="Simulador de valuation">
+  <div class="cg"><label for="sw"><span>WACC</span><b id="swv"></b></label><input id="sw" type="range" min="6" max="14" step="0.02" value="8.92"></div>
+  <div class="cg"><label for="sr"><span>Valor residual (% da BRRL 2043)</span><b id="srv"></b></label><input id="sr" type="range" min="0" max="120" step="1" value="100"></div>
+  <button class="tg" id="sreset" type="button">Caso do modelo</button>
+ </section>
+ <section class="kpis" id="kpis"></section>
+
+ <section class="comp">
+  <h2>Composição do valuation</h2>
+  <div class="bar" id="comp"></div>
+  <p class="cap" style="margin:8px 0 0;color:var(--muted);font-size:12px">Um terço do valor vem da base de ativos regulatória (BRRL) de 2043 trazida a valor presente. O restante é o fluxo de caixa livre da firma entre 2027 e 2043.</p>
+ </section>
+
+ <section class="grid">
+  <div class="card"><h2>Fluxo de caixa livre da firma, 2027 a 2043</h2><p class="cap">Os três primeiros anos ficam próximos de zero porque o CAPEX do Ciclo I consome a geração operacional.</p><div class="cv"><canvas id="c_fcff"></canvas></div></div>
+  <div class="card"><h2>Margem, OPEX e EBITDA, 2027 a 2056</h2><p class="cap">Margem após perdas de gás. A passagem do Ciclo I para o II reposiciona a margem por segmento.</p><div class="cv"><canvas id="c_mox"></canvas></div></div>
+  <div class="card"><h2>CAPEX por rubrica, 2026 a 2056</h2><p class="cap">O modelo zera o CAPEX depois de 2056.</p><div class="cv"><canvas id="c_capex"></canvas></div></div>
+  <div class="card"><h2>Base de ativos regulatória (BRRL) e depreciação</h2><p class="cap">O ponto marcado é a BRRL de 2043, usada como valor residual do valuation.</p><div class="cv"><canvas id="c_brrl"></canvas></div></div>
+  <div class="card"><h2>Margem por segmento, 2027 a 2056</h2><p class="cap">Antes de perdas de gás. Os clientes livres respondem por 37% da margem em 2027.</p><div class="cv"><canvas id="c_mseg"></canvas></div></div>
+  <div class="card"><h2>Volume cativo por segmento, 2026 a 2056</h2><p class="cap">Em milhões de m³ por ano. Clientes livres (1,03 bilhão de m³/ano) ficam fora do gráfico por escala.</p><div class="cv"><canvas id="c_vol"></canvas></div></div>
+  <div class="card"><h2>Clientes ativos</h2><p class="cap">Residencial concentra mais de 98% da base.</p><div class="cv"><canvas id="c_cli"></canvas></div></div>
+  <div class="card full"><h2>Valuation conforme o WACC</h2><p class="cap">Curva com o valor residual escolhido no topo. O ponto marca o WACC selecionado; a linha tracejada é o valor do modelo.</p><div class="cv"><canvas id="c_curve"></canvas></div></div>
+  <div class="card"><h2>Rede total, km</h2><p class="cap">Aço de alta pressão e polietileno de baixa e média pressão.</p><div class="cv"><canvas id="c_rede"></canvas></div></div>
+ </section>
+
+ <section class="card">
+  <h2>Matriz de sensibilidade do valuation (R$ milhões)</h2>
+  <p class="cap">Mesmos fluxos do modelo, descontados a partir de 2026. A célula destacada é o caso do Excel. Os controles no topo da página recalculam os indicadores e os gráficos.</p>
+  <div class="tw"><table id="sens"></table></div>
+ </section>
+
+ <section class="card">
+  <h2>Ciclos regulatórios</h2>
+  <p class="cap">Cada ciclo tem cinco anos. Nos ciclos I e II a taxa de retorno inclui prêmio de risco regulatório de 5 e 3 pontos percentuais sobre o WACC de 8,92%. Margem média em R$ por m³.</p>
+  <div class="tw"><table id="cic"></table></div>
+ </section>
+
+ <details><summary>Tabela anual, 2027 a 2043 (R$ milhões)</summary><div class="tw" style="margin-top:10px"><table id="tab"></table></div></details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+const D={"anos": [2026, 2027, 2028, 2029, 2030, 2031, 2032, 2033, 2034, 2035, 2036, 2037, 2038, 2039, 2040, 2041, 2042, 2043, 2044, 2045, 2046, 2047, 2048, 2049, 2050, 2051, 2052, 2053, 2054, 2055, 2056], "rec_bruta": [null, 362601.885, 370580.065, 411876.303, 431669.583, 443616.716, 452025.032, 463484.913, 591814.623, 605653.111, 619745.424, 635328.336, 649982.124, 739599.841, 756043.851, 772787.656, 789836.766, 807196.792, 855256.347, 873762.857, 892606.226, 911792.635, 931328.381, 951219.875, 971473.65, 992096.356, 1013094.769, 1034475.79, 1056246.446, 1078413.896, 1100985.431], "rec_liq": [null, 287128.845, 293385.411, 326679.111, 342595.698, 352114.158, 358799.362, 367920.844, 471412.066, 482448.924, 493687.993, 506117.768, 517804.025, 590020.72, 603146.654, 616511.621, 630120.008, 643976.286, 682619.193, 697394.713, 712438.877, 727756.609, 743352.924, 759232.93, 775401.83, 791864.922, 808627.603, 825695.368, 843073.815, 860768.647, 878785.669], "custo_gas": [null, 199506.069, 203393.625, 229764.49, 242096.843, 248757.623, 255018.245, 261393.825, 344005.997, 351889.115, 359914.924, 368086.029, 376405.082, 433525.798, 442961.368, 452566.705, 462344.889, 472299.053, 502221.649, 512867.893, 523705.391, 534737.607, 545968.067, 557400.362, 569038.148, 580885.149, 592945.154, 605222.026, 617719.694, 630442.162, 643393.506], "margem": [null, 85627.715, 87957.849, 94616.976, 98077.886, 100868.958, 101230.935, 103913.08, 123966.009, 127040.918, 130173.92, 134350.879, 137634.892, 152159.664, 155755.673, 159419.249, 163151.671, 166954.242, 175375.328, 179398.141, 183496.432, 187671.625, 191925.176, 196258.565, 200673.301, 205170.922, 209752.997, 214421.121, 219176.924, 224022.063, 228958.228], "opex": [null, 44038, 45893, 47940, 50065, 53771.373, 57544.299, 61388.444, 65790.33, 69789.313, 73864.005, 78015.92, 82246.6, 86867.665, 91265.806, 95747.615, 100314.763, 104968.955, 109838.043, 114673.68, 119601.716, 124623.999, 129742.411, 134958.871, 140275.338, 145693.811, 151216.326, 156844.961, 162581.838, 168429.117, 174389.005], "ebitda": [null, 41589.715, 42064.849, 46676.976, 48012.886, 47097.586, 43686.636, 42524.636, 58175.679, 57251.606, 56309.914, 56334.959, 55388.292, 65291.998, 64489.866, 63671.634, 62836.908, 61985.287, 65537.285, 64724.462, 63894.715, 63047.626, 62182.765, 61299.694, 60397.962, 59477.112, 58536.671, 57576.16, 56595.086, 55592.945, 54569.223], "da": [null, 3967.378, 5601.216, 6672.698, 6925.506, 7133.667, 7869.725, 8621.092, 9372.458, 10123.825, 11028.942, 11563.058, 11996.54, 13090.574, 14883.793, 16567.424, 17546.943, 18394.687, 19242.432, 20090.176, 20990.77, 21958.909, 22941.743, 23924.576, 24907.409, 25925.443, 27011.593, 28130.659, 29249.726, 28651.893, 27179.093], "ebit": [null, 37622.337, 36463.633, 40004.278, 41087.38, 39963.919, 35816.911, 33903.544, 48803.22, 47127.781, 45280.973, 44771.901, 43391.752, 52201.424, 49606.074, 47104.21, 45289.965, 43590.6, 46294.853, 44634.286, 42903.945, 41088.717, 39241.023, 37375.118, 35490.553, 33551.669, 31525.079, 29445.501, 27345.36, 26941.053, 27390.13], "ir": [null, 5737.406, 5560.704, 6100.652, 6265.826, 6094.498, 5462.079, 5170.291, 7442.491, 7186.987, 6905.348, 6827.715, 6617.242, 7960.717, 7564.926, 7183.392, 6906.72, 6647.567, 7059.965, 6806.729, 6542.852, 6266.029, 5984.256, 5699.705, 5412.309, 5116.63, 4807.574, 4490.439, 4170.167, 4108.511, 4176.995], "nopat": [null, 31884.931, 30902.929, 33903.626, 34821.555, 33869.421, 30354.832, 28733.254, 41360.729, 39940.794, 38375.624, 37944.186, 36774.509, 44240.707, 42041.147, 39920.818, 38383.246, 36943.034, 39234.888, 37827.557, 36361.093, 34822.687, 33256.767, 31675.412, 30078.244, 28435.039, 26717.504, 24955.062, 23175.193, 22832.542, 23213.136], "wc": [null, -5564.114, -3357.746, 1475.499, 479.414, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], "capex": [null, 40808.636, 39718.299, 33489.292, 18565.264, 19301, 19301, 19301, 19301, 19301, 22376, 22376, 22376, 22376, 22376, 25939.0, 25939.0, 25939.0, 25939.0, 25939.0, 30071, 30071, 30071, 30071, 30071, 34338, 34338, 34338, 34338, 0, 0], "fcff": [null, 607.786, 143.592, 5611.532, 22702.382, 21702.088, 18923.557, 18053.346, 31432.188, 30763.619, 27028.566, 27131.244, 26395.05, 34955.281, 34548.94, 30549.242, 29991.188, 29398.721, 32538.32, 31978.733, 27280.864, 26710.597, 26127.509, 25528.988, 24914.653, 20022.482, 19391.097, 18747.721, 18086.919, 51484.435, 50392.228], "brrl": [90000, 128338.904, 164246.763, 192721.907, 205696.419, 218483.318, 230484.184, 241705.8, 252148.166, 261811.281, 273616.396, 284990.567, 295898.928, 305680.928, 313637.385, 323440.883, 332384.403, 340442.704, 347615.786, 353903.649, 363385.444, 372037.699, 379663.678, 386263.381, 391836.807, 400615.757, 408446.972, 415109.513, 420603.38, 392307.473, 363971.335], "fr": [1, 0.9, 1, 1, 1, 1, 0.968, 1, 1, 1, 1, 1.009, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], "vol_total": [1007692.0, 1120631.104, 1125491.315, 1134616.919, 1140058.937, 1142998.205, 1145760.891, 1148574.306, 1185029.389, 1188508.05, 1192049.678, 1195655.421, 1199326.451, 1224532.67, 1228696.396, 1232935.038, 1237249.953, 1241642.524, 1254846.762, 1259544.734, 1264327.103, 1269195.398, 1274151.173, 1279196.014, 1284331.534, 1289559.376, 1294881.213, 1300298.748, 1305813.717, 1311427.885, 1317143.052], "vol": {"Industrial": [52304.5, 53618.5, 54056.5, 65036.43, 69748.449, 71323.411, 72694.506, 74088.498, 109095.769, 111097.662, 113132.987, 115202.302, 117306.174, 140913.891, 143447.147, 146022.708, 148641.281, 151303.584, 162742.947, 165640.748, 168586.942, 171582.338, 174627.756, 177724.034, 180872.019, 184072.575, 187326.581, 190634.928, 193998.525, 197418.294, 200895.174], "Comercial": [2555, 2664.5, 2774, 2883.5, 2956.5, 3297.71, 3645.743, 4000.738, 4362.832, 4732.169, 5108.892, 5493.149, 5885.092, 6284.873, 6692.65, 7108.583, 7532.834, 7965.57, 8406.961, 8857.18, 9316.404, 9784.811, 10262.587, 10749.918, 11246.996, 11754.016, 12271.176, 12798.679, 13336.732, 13885.547, 14445.337], "Residencial": [3978.5, 4380, 4672, 4891, 5146.5, 5592.166, 6046.744, 6510.415, 6983.359, 7465.761, 7957.812, 8459.704, 8971.633, 9493.801, 10026.413, 10569.677, 11123.806, 11689.017, 12265.533, 12853.579, 13453.386, 14065.19, 14689.229, 15325.749, 15975.0, 16637.235, 17312.715, 18001.705, 18704.475, 19421.3, 20152.461], "Automotivo": [26864.0, 27265.5, 28141.5, 28470, 28871.5, 29448.93, 30037.909, 30638.667, 31251.44, 31876.469, 32513.998, 33164.278, 33827.564, 34504.115, 35194.197, 35898.081, 36616.043, 37348.364, 38095.331, 38857.238, 39634.382, 40427.07, 41235.612, 42060.324, 42901.53, 43759.561, 44634.752, 45527.447, 46437.996, 47366.756, 48314.091], "Cogera\u00e7\u00e3o": [109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5, 109.5], "Clientes livres": [921880.5, 1032593.104, 1035737.815, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489, 1033226.489]}, "mg_seg": {"Industrial": [32321.459, 29820.098, 30063.693, 36170.216, 38790.82, 39666.74, 39129.742, 39880.095, 58723.686, 59801.258, 60896.826, 62596.13, 63739.286, 76566.737, 77943.202, 79342.655, 80765.478, 82212.063, 88427.736, 90002.28, 91603.119, 93230.692, 94885.446, 96567.834, 98278.318, 100017.367, 101785.458, 103583.076, 105410.714, 107268.874, 109158.066], "Comercial": [3564.991, 4275.442, 4451.145, 4626.848, 4743.984, 5291.487, 5661.903, 6213.215, 6775.554, 7349.14, 7934.197, 8611.496, 9225.937, 9852.666, 10491.929, 11143.978, 11809.068, 12487.46, 13179.42, 13885.219, 14605.133, 15339.446, 16088.446, 16852.425, 17631.684, 18426.528, 19237.269, 20064.225, 20907.72, 21768.085, 22645.657], "Residencial": [9591.932, 12143.914, 12953.508, 13560.704, 14269.099, 15504.743, 16226.213, 17470.455, 18739.582, 20034.091, 21354.491, 22915.621, 24302.335, 25716.782, 27159.519, 28631.11, 30132.133, 31663.177, 33224.841, 34817.739, 36442.495, 38099.746, 39790.142, 41514.346, 43273.033, 45066.895, 46896.634, 48762.967, 50666.628, 52608.361, 54588.93], "Automotivo": [9240.091, 9378.191, 9679.498, 9792.488, 9930.587, 10129.199, 9999.684, 10199.678, 10403.671, 10611.745, 10823.98, 11144.692, 11367.586, 11594.937, 11826.836, 12063.373, 12304.64, 12550.733, 12801.748, 13057.783, 13318.938, 13585.317, 13857.023, 14134.164, 14416.847, 14705.184, 14999.288, 15299.274, 15605.259, 15917.364, 16235.712], "Cogera\u00e7\u00e3o": [27.294, 24.565, 24.565, 24.565, 24.565, 24.565, 23.775, 23.775, 23.775, 23.775, 23.775, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0, 24.0], "Clientes livres": [26539.48, 31980.566, 32819.376, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8, 32739.8]}, "clientes": {"Industrial": [58, 58, 59, 63, 63, 67.931, 72.863, 77.794, 82.725, 87.657, 92.588, 97.519, 102.451, 107.382, 112.313, 117.245, 122.176, 127.107, 132.039, 136.97, 141.901, 146.833, 151.764, 156.695, 161.627, 166.558, 171.489, 176.421, 181.352, 186.283, 191.215], "Comercial": [670, 744.5, 796.25, 871.75, 929.75, 1003.72, 1077.69, 1151.66, 1225.63, 1299.6, 1373.57, 1447.54, 1521.51, 1595.48, 1669.45, 1743.42, 1817.39, 1891.36, 1965.33, 2039.3, 2113.27, 2187.24, 2261.21, 2335.18, 2409.15, 2483.12, 2557.09, 2631.06, 2705.03, 2779.0, 2852.97], "Residencial": [52827, 57793.667, 61243.667, 66277, 70917.0, 76834.6, 82870.552, 89027.223, 95307.028, 101712.428, 108245.937, 114910.115, 121707.578, 128640.989, 135713.069, 142926.59, 150284.382, 157789.33, 165444.376, 173252.524, 181216.834, 189340.431, 197626.5, 206078.29, 214699.116, 223492.358, 232461.465, 241609.954, 250941.413, 260459.502, 270167.952], "Automotivo": [39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69], "Total": [53608, 58650.167, 62153.917, 67267.75, 71966.75, 77964.251, 84080.105, 90316.677, 96676.383, 103161.685, 109775.095, 116519.175, 123396.538, 130409.851, 137561.832, 144855.255, 152292.948, 159877.797, 167612.745, 175500.794, 183545.006, 191748.504, 200114.474, 208646.165, 217346.892, 226220.036, 235269.044, 244497.435, 253908.795, 263506.785, 273295.136]}, "rede": {"A\u00e7o": [138.357, 157.957, 177.457, 188.757, 190.057, 197.307, 204.557, 211.807, 219.057, 226.307, 233.557, 240.807, 248.057, 255.307, 262.557, 269.807, 277.057, 284.307, 291.557, 298.807, 306.057, 313.307, 320.557, 327.807, 335.057, 342.307, 349.557, 356.807, 364.057, 371.307, 378.557], "PE": [234.806, 245.006, 246.206, 265.106, 287.006, 309.344, 332.129, 355.369, 379.074, 403.254, 427.917, 453.073, 478.732, 504.905, 531.601, 558.831, 586.605, 614.935, 643.832, 673.306, 703.37, 734.036, 765.314, 797.218, 829.761, 862.954, 896.811, 931.345, 966.57, 1002.499, 1039.147], "Total": [373.163, 402.963, 423.663, 453.863, 477.063, 506.651, 536.685, 567.176, 598.131, 629.56, 661.473, 693.88, 726.789, 760.211, 794.157, 828.637, 863.662, 899.242, 935.388, 972.113, 1009.427, 1047.342, 1085.871, 1125.025, 1164.817, 1205.26, 1246.367, 1288.151, 1330.626, 1373.805, 1417.703]}, "capex_rub": {"Expans\u00e3o": [9615.333, 11913.667, 11624, 9058.667, 4667.333, 5623.667, 5623.667, 5623.667, 5623.667, 5623.667, 6519.667, 6519.667, 6519.667, 6519.667, 6519.667, 7558, 7558, 7558, 7558, 7558, 8761.667, 8761.667, 8761.667, 8761.667, 8761.667, 10005, 10005, 10005, 10005, 0, 0], "Satura\u00e7\u00e3o industrial": [10253.667, 13027.333, 12468, 10749.333, 5584.333, 5623.667, 5623.667, 5623.667, 5623.667, 5623.667, 6519.667, 6519.667, 6519.667, 6519.667, 6519.667, 7558, 7558, 7558, 7558, 7558, 8761.667, 8761.667, 8761.667, 8761.667, 8761.667, 10005, 10005, 10005, 10005, 0, 0], "Satura\u00e7\u00e3o urbana": [9615.622, 12293.636, 11624.299, 9863.292, 4667.598, 5623.667, 5623.667, 5623.667, 5623.667, 5623.667, 6519.667, 6519.667, 6519.667, 6519.667, 6519.667, 7558, 7558, 7558, 7558, 7558, 8761.667, 8761.667, 8761.667, 8761.667, 8761.667, 10005, 10005, 10005, 10005, 0, 0], "Manuten\u00e7\u00e3o e suporte": [2707, 2349, 2367, 2743, 3221, 810, 810, 810, 810, 810, 939, 939, 939, 939, 939, 1088.333, 1088.333, 1088.333, 1088.333, 1088.333, 1262, 1262, 1262, 1262, 1262, 1441, 1441, 1441, 1441, 0, 0], "TI": [325, 325, 325, 325, 375, 810, 810, 810, 810, 810, 939, 939, 939, 939, 939, 1088.333, 1088.333, 1088.333, 1088.333, 1088.333, 1262, 1262, 1262, 1262, 1262, 1441, 1441, 1441, 1441, 0, 0], "Outros": [1420, 900, 1310, 750, 50, 810, 810, 810, 810, 810, 939, 939, 939, 939, 939, 1088.333, 1088.333, 1088.333, 1088.333, 1088.333, 1262, 1262, 1262, 1262, 1262, 1441, 1441, 1441, 1441, 0, 0]}, "opex_rub": {"O&M": [9391, 9727, 10138, 10611, 11127, 11817.11, 12517.64, 13228.799, 13950.799, 14683.857, 15428.195, 16184.037, 16951.614, 17731.16, 18522.916, 19327.124, 20144.035, 20973.902, 21816.984, 22673.546, 23543.858, 24428.193, 25326.833, 26240.064, 27168.178, 28111.472, 29070.25, 30044.822, 31035.503, 32042.615, 33066.488], "Comercial": [4228, 4390, 4534, 4675, 4840, 5243.352, 5654.663, 6074.093, 6501.804, 6937.962, 7382.735, 7836.297, 8298.822, 8770.49, 9251.484, 9741.991, 10242.2, 10752.306, 11272.507, 11803.004, 12344.004, 12895.716, 13458.355, 14032.139, 14617.291, 15214.039, 15822.615, 16443.254, 17076.199, 17721.696, 18379.994], "Corporativo": [23257, 24667, 25564, 26495, 27221, 29489.52, 31802.805, 34161.752, 36567.273, 39020.301, 41521.784, 44072.693, 46674.015, 49326.759, 52031.954, 54790.648, 57603.912, 60472.837, 63398.535, 66382.143, 69424.819, 72527.744, 75692.123, 78919.185, 82210.184, 85566.398, 88989.133, 92479.717, 96039.509, 99669.892, 103372.278], "HSE": [1479, 1550, 1592, 1667, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711, 1711], "Impostos e taxas": [1756.152, 2161.152, 2522.152, 2949.152, 3623.152, 3925.095, 4232.997, 4546.976, 4867.154, 5193.655, 5526.606, 5866.136, 6212.375, 6565.459, 6925.524, 7292.71, 7667.16, 8049.017, 8438.432, 8835.554, 9240.538, 9653.542, 10074.725, 10504.252, 10942.288, 11389.005, 11844.575, 12309.177, 12782.99, 13266.199, 13758.992], "Taxa de ag\u00eancia": [1542.848, 1542.848, 1542.848, 1542.848, 1542.848, 1585.296, 1625.194, 1665.824, 2192.3, 2242.538, 2293.685, 2345.758, 2398.774, 2762.796, 2822.928, 2884.141, 2946.456, 3009.893, 3200.585, 3268.432, 3337.498, 3407.804, 3479.374, 3552.231, 3626.397, 3701.896, 3778.752, 3856.991, 3936.637, 4017.715, 4100.252], "Perdas de g\u00e1s": [0, 1995.061, 2033.936, 2297.645, 2420.968, 2487.576, 2550.182, 2613.938, 3440.06, 3518.891, 3599.149, 3680.86, 3764.051, 4335.258, 4429.614, 4525.667, 4623.449, 4722.991, 5022.216, 5128.679, 5237.054, 5347.376, 5459.681, 5574.004, 5690.381, 5808.851, 5929.452, 6052.22, 6177.197, 6304.422, 6433.935]}, "tarifa": {"Industrial": [2.884, 2.822, 2.822, 2.822, 2.822, 2.822, 2.804, 2.804, 2.804, 2.804, 2.804, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809, 2.809], "Comercial": [3.661, 3.871, 3.871, 3.871, 3.871, 3.871, 3.819, 3.819, 3.819, 3.819, 3.819, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834, 3.834], "Residencial": [4.677, 5.039, 5.039, 5.039, 5.039, 5.039, 4.95, 4.95, 4.95, 4.95, 4.95, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975, 4.975], "Automotivo": [2.61, 2.61, 2.61, 2.61, 2.61, 2.61, 2.599, 2.599, 2.599, 2.599, 2.599, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602, 2.602]}, "ciclos": [{"ciclo": "Ciclo I", "wacc": 0.13919999999999993, "mm": 0.06911735317547495, "tir": 0.1392000000000002, "vpl": 0, "fr": 0.7521763238794147}, {"ciclo": "Ciclo II", "wacc": 0.11919999999999994, "mm": 0.10137685718115294, "tir": 0.11919999999999997, "vpl": 0, "fr": 0.9678565516291325}, {"ciclo": "Ciclo III", "wacc": 0.08919999999999995, "mm": 0.12417266980050568, "tir": 0.09954297250308186, "vpl": 12532.987104138156, "fr": 1.009440970936183}, {"ciclo": "Ciclo IV", "wacc": 0.08919999999999995, "mm": 0.14441740005094622, "tir": 0.1008399931904207, "vpl": 16365.27222022679, "fr": 1.0198501293869575}, {"ciclo": "Ciclo V", "wacc": 0.08919999999999995, "mm": 0.1702454425463813, "tir": 0.10150077063751994, "vpl": 19392.38108645036, "fr": 1.2783346200723462}, {"ciclo": "Ciclo VI", "wacc": 0.08919999999999995, "mm": 0.15150807455610513, "tir": 0.09295845490689336, "vpl": 4428.028966404148, "fr": 0.9993030249255919}], "val": {"vp_fcff": 163220.9450841232, "rab": 340442.7037837242, "vp_rab": 79655.22627489167, "total": 242876.17135901487, "ebitda27": 41.58971504645589, "xebitda": 5.839813306913044, "wacc": 0.08919999999999995, "ir": 0.1525, "rf": 0.08506786053452452}, "val_ini": 2027, "val_fim": 2043};
+const A=D.anos, i0=A.indexOf(2027), i43=A.indexOf(2043);
+const fmt=(v,d=1)=>v==null?'':new Intl.NumberFormat('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}).format(v);
+const mi=a=>a.map(v=>v==null?null:v/1000);
+const V=D.val;
+document.getElementById('mJan').textContent=D.val_ini+' a '+D.val_fim;
+// Cálculo
+const fc=D.fcff.slice(i0,i43+1), n=fc.length;
+const pvF=w=>fc.reduce((s,f,k)=>s+f/Math.pow(1+w,k+1),0);
+const pvR=(w,p)=>V.rab*p/Math.pow(1+w,n);
+const val=(w,p)=>(pvF(w)+pvR(w,p))/1000;
+const capT=A.map((_,j)=>Object.values(D.capex_rub).reduce((s,a)=>s+(a[j]||0),0)), capJ=capT.slice(i0,i43+1).reduce((s,v)=>s+v,0);
+const opex27=D.opex[i0], mg27=D.margem[i0];
+const st={w:V.wacc,p:1}; let chF=null,chC=null;
+const CW=[];for(let x=6;x<=14.001;x+=0.25)CW.push(+x.toFixed(2));
+function render(){
+ const w=st.w,p=st.p,f=pvF(w)/1000,r=pvR(w,p)/1000,t=f+r,base=V.total/1000,d=t-base;
+ document.getElementById('swv').textContent=fmt(w*100,2)+'%';document.getElementById('srv').textContent=fmt(p*100,0)+'%';
+ const dn=Math.abs(d)<0.05?'Igual ao modelo':(d>0?'+':'')+fmt(d)+' mi ('+fmt(d/base*100)+'%) frente ao modelo';
+ const kp=[
+  ['Valuation 2027 a 2043','R$ '+fmt(t)+' mi',dn,1],
+  ['VP do FCFF','R$ '+fmt(f)+' mi','17 anos, WACC '+fmt(w*100,2)+'%'],
+  ['VP da BRRL 2043','R$ '+fmt(r)+' mi','BRRL nominal R$ '+fmt(V.rab/1000)+' mi'],
+  ['EV / EBITDA 2027',fmt(t/V.ebitda27,2)+'x','EBITDA 2027 R$ '+fmt(V.ebitda27)+' mi'],
+  ['OPEX / margem 2027',fmt(opex27/mg27*100)+'%','Margem R$ '+fmt(mg27/1000)+' mi'],
+  ['CAPEX 2027 a 2043','R$ '+fmt(capJ/1000,0)+' mi','CAPEX 2026: R$ '+fmt(capT[0]/1000)+' mi']];
+ document.getElementById('kpis').innerHTML=kp.map(k=>`<div class="kpi${k[3]?' main':''}"><div class="l">${k[0]}</div><div class="v">${k[1]}</div><div class="n">${k[2]}</div></div>`).join('');
+ const pr=t>0?r/t*100:0;
+ document.getElementById('comp').innerHTML=`<div class="a" style="flex:${Math.max(100-pr,1)}">FCFF 2027 a 2043: R$ ${fmt(f)} mi (${fmt(100-pr,0)}%)</div><div class="b" style="flex:${Math.max(pr,1)}">BRRL: R$ ${fmt(r)} mi (${fmt(pr,0)}%)</div>`;
+ if(chF){chF.data.datasets[1].data=fc.map((x,k)=>x/Math.pow(1+w,k+1)/1000);chF.update('none')}
+ if(chC){chC.data.datasets[0].data=CW.map(x=>val(x/100,p));
+  const m=CW.map(()=>null);m[Math.round((w*100-6)/0.25)]=t;chC.data.datasets[1].data=m;chC.update('none')}
+}
+const sw=document.getElementById('sw'),sr=document.getElementById('sr');
+function onSl(){st.w=+sw.value/100;st.p=+sr.value/100;render()}
+['input','change'].forEach(e=>{sw.addEventListener(e,onSl);sr.addEventListener(e,onSl)});
+document.getElementById('sreset').addEventListener('click',()=>{sw.value=8.92;sr.value=100;onSl()});
+const ws=[7.92,8.42,8.92,9.42,9.92,10.92],ps=[0,50,75,100];
+document.getElementById('sens').innerHTML='<tr><th>WACC \\ valor residual</th>'+ps.map(p=>`<th>${p}%</th>`).join('')+'</tr>'+ws.map(w=>`<tr><td>${fmt(w,2)}%</td>`+ps.map(p=>`<td class="${w==8.92&&p==100?'base':''}">${fmt(val(w/100,p/100))}</td>`).join('')+'</tr>').join('');
+// Ciclos
+const per=['2027 a 2031','2032 a 2036','2037 a 2041','2042 a 2046','2047 a 2051','2052 a 2056'];
+document.getElementById('cic').innerHTML='<tr><th>Ciclo</th><th>Período</th><th>Taxa de retorno</th><th>Margem média</th><th>TIR</th><th>VPL (R$ mi)</th><th>Fator de reposicionamento</th></tr>'+D.ciclos.map((c,k)=>`<tr><td>${c.ciclo}</td><td>${per[k]}</td><td>${fmt(c.wacc*100,2)}%</td><td>${fmt(c.mm,3)}</td><td>${fmt(c.tir*100,2)}%</td><td>${fmt(c.vpl/1000)}</td><td>${fmt(c.fr,3)}</td></tr>`).join('');
+// Tabela anual
+const rows=[['Margem',D.margem],['OPEX',D.opex],['EBITDA',D.ebitda],['CAPEX',D.capex],['NOPAT',D.nopat],['FCFF',D.fcff],['BRRL',D.brrl]];
+document.getElementById('tab').innerHTML='<tr><th></th>'+A.slice(i0,i43+1).map(y=>`<th>${y}</th>`).join('')+'</tr>'+rows.map(r=>`<tr><td>${r[0]}</td>`+r[1].slice(i0,i43+1).map(v=>`<td>${fmt(v/1000)}</td>`).join('')+'</tr>').join('');
+
+// Gráficos
+let charts=[];
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function build(){
+ charts.forEach(c=>c.destroy());charts=[];chF=chC=null;
+ const ink=css('--muted'),grid=css('--grid'),surf=css('--surface');
+ const col=['--c1','--c2','--c3','--c4','--c5','--c6'].map(css);
+ Chart.defaults.font.family="Montserrat,'Segoe UI',Arial,sans-serif";Chart.defaults.font.size=11;Chart.defaults.color=ink;
+ const base=(type,labels,ds,o={})=>{
+  const c=new Chart(document.getElementById(o.id),{type,data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},
+   plugins:{legend:{display:ds.length>1,position:'top',align:'start',labels:{boxWidth:10,boxHeight:10,usePointStyle:false}},
+    tooltip:{callbacks:{label:c=>' '+c.dataset.label+': '+fmt(c.parsed.y,o.d??1)+(o.u||'')}}},
+   scales:{x:{stacked:!!o.stack,grid:{display:false},ticks:{maxTicksLimit:10}},y:{stacked:!!o.stack,grid:{color:grid},border:{display:false},ticks:{callback:v=>fmt(v,0)},title:{display:!!o.yt,text:o.yt||''}}}}});
+  charts.push(c);return c};
+ const L=A.slice(i0,i43+1);
+ const disc=fc.map((f,k)=>f/Math.pow(1+V.wacc,k+1)/1000);
+ chF=base('bar',L,[{label:'FCFF',data:mi(fc),backgroundColor:col[1],borderRadius:3,maxBarThickness:22,order:2},
+  {label:'FCFF descontado',type:'line',data:disc,borderColor:col[0],backgroundColor:col[0],borderWidth:2,pointRadius:3,pointBackgroundColor:col[0],pointBorderColor:surf,order:1}],{id:'c_fcff',yt:'R$ milhões'});
+ chC=base('line',CW.map(x=>fmt(x,2)+'%'),[{label:'Valuation (R$ mi)',data:[],borderColor:col[1],backgroundColor:col[1],borderWidth:2,pointRadius:0,tension:.2},{label:'WACC selecionado',data:[],borderColor:col[3],backgroundColor:col[3],pointRadius:7,pointBorderColor:surf,pointBorderWidth:2,showLine:false},{label:'Modelo (R$ mi)',data:CW.map(()=>V.total/1000),borderColor:col[0],borderDash:[5,4],borderWidth:1.5,pointRadius:0}],{id:'c_curve',yt:'R$ milhões'});
+ const L2=A.slice(i0);
+ const ln=(l,d,c,dash)=>({label:l,data:mi(d.slice(i0)),borderColor:c,backgroundColor:c,borderWidth:2,pointRadius:0,pointHoverRadius:4,borderDash:dash||[],tension:.15});
+ base('line',L2,[ln('Margem',D.margem,col[0]),ln('OPEX',D.opex,col[3]),ln('EBITDA',D.ebitda,col[1])],{id:'c_mox',yt:'R$ milhões'});
+ const cr=D.capex_rub, sm=(...k)=>A.map((_,j)=>k.reduce((s,n)=>s+(cr[n][j]||0),0)/1000);
+ const bar=(l,d,c)=>({label:l,data:d,backgroundColor:c,borderColor:surf,borderWidth:1,maxBarThickness:20});
+ base('bar',A,[bar('Expansão',sm('Expansão'),col[0]),bar('Saturação',sm('Saturação industrial','Saturação urbana'),col[1]),bar('Manutenção e suporte',sm('Manutenção e suporte'),col[2]),bar('TI e outros',sm('TI','Outros'),col[3])],{id:'c_capex',stack:1,yt:'R$ milhões'});
+ const pt=A.map((y,j)=>y==2043?6:0);
+ base('line',A,[{label:'BRRL',data:mi(D.brrl),borderColor:col[0],backgroundColor:col[0],borderWidth:2,pointRadius:pt,pointBackgroundColor:col[3],pointBorderColor:surf,pointBorderWidth:2,tension:.15},
+  {label:'Depreciação',data:mi(D.da),borderColor:col[3],backgroundColor:col[3],borderWidth:2,pointRadius:0,tension:.15}],{id:'c_brrl',yt:'R$ milhões'});
+ const ms=D.mg_seg,cols={Industrial:col[0],'Clientes livres':col[3],Residencial:col[1],Comercial:col[2],Automotivo:col[4],'Cogeração':col[5]};
+ base('bar',L2,Object.keys(ms).map(k=>bar(k,mi(ms[k].slice(i0)),cols[k])),{id:'c_mseg',stack:1,yt:'R$ milhões'});
+ const vs=D.vol,vk=['Industrial','Automotivo','Comercial','Residencial','Cogeração'];
+ base('bar',A,vk.map(k=>bar(k,vs[k].map(v=>v/1000),cols[k])),{id:'c_vol',stack:1,yt:'milhões de m³'});
+ base('line',A,[{label:'Total de clientes',data:D.clientes.Total,borderColor:col[1],backgroundColor:col[1],borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:.15}],{id:'c_cli',d:0,yt:'clientes'});
+ base('line',A,[{label:'Aço (alta pressão)',data:D.rede['Aço'],borderColor:col[0],backgroundColor:col[0],borderWidth:2,pointRadius:0,tension:.15},{label:'Polietileno (baixa e média)',data:D.rede['PE'],borderColor:col[3],backgroundColor:col[3],borderWidth:2,pointRadius:0,tension:.15},{label:'Total',data:D.rede.Total,borderColor:col[1],backgroundColor:col[1],borderWidth:2,borderDash:[5,4],pointRadius:0,tension:.15}],{id:'c_rede',d:0,yt:'km'});
+ render();
+}
+build();render();
+try{matchMedia('(prefers-color-scheme: dark)').addEventListener('change',build);new MutationObserver(build).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']})}catch(e){}
+</script>
+
+</body></html>
